@@ -60,7 +60,7 @@ func (vp *WebhookVPAPolicyValidator) ValidateVPA(vpa *apis.KatalystVerticalPodAu
 			minAllowed, minExist := containerPolicy.MinAllowed[validResource]
 			maxAllowed, maxExist := containerPolicy.MaxAllowed[validResource]
 			if minExist && maxExist && katalystutil.IsResourceGreaterThan(minAllowed, maxAllowed) {
-				return false, fmt.Sprintf("minAllowed > maxAllowed in container policy"), nil
+				return false, "minAllowed > maxAllowed in container policy", nil
 			}
 		}
 	}

@@ -27,7 +27,6 @@ import (
 
 	apis "github.com/kubewharf/katalyst-api/pkg/apis/autoscaling/v1alpha1"
 	autoscalelister "github.com/kubewharf/katalyst-api/pkg/client/listers/autoscaling/v1alpha1"
-	"github.com/kubewharf/katalyst-core/pkg/util"
 	katalystutil "github.com/kubewharf/katalyst-core/pkg/util"
 )
 
@@ -127,13 +126,13 @@ func (r *WebhookPodResourceMutator) MutatePod(pod *core.Pod, namespace string) (
 		return false, nil
 	}
 
-	podResources, containerResources, err := util.GenerateVPAResourceMap(vpa)
+	podResources, containerResources, err := katalystutil.GenerateVPAResourceMap(vpa)
 	if err != nil {
 		klog.Errorf("failed to get container resource from VPA %s", vpa.Name)
 		return false, err
 	}
 
-	annotationResource, err := util.GenerateVPAPodResizeResourceAnnotations(pod, podResources, containerResources)
+	annotationResource, err := katalystutil.GenerateVPAPodResizeResourceAnnotations(pod, podResources, containerResources)
 	if err != nil {
 		klog.Errorf("failed to exact pod %v resize resource annotation from container resource: %v", pod, err)
 		return false, err
